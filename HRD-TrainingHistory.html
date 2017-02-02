@@ -232,47 +232,18 @@
                         <td>IT</td>
                         <td>Pramuditya Ananta Nur</td>
                         <td>
-                          <a href="#" data-toggle="modal" data-target="#modalUpdateEmployeeData"><i class="fa fa-pencil"></i></a>
-                          <a href="#" data-toggle="modal" data-target="#modalDeleteEmployeeData"><i class="fa fa-trash"></i></a>
+                          <a href="#" data-toggle="modal" data-target="#modalTraningHistory"><i class="fa fa-eye"></i></a>
                         </td>
                     </tr>
                   </tbody>
                 </table>
-                <!--Start Modal Employee Delete-->
-                <div id="modalDeleteEmployeeData" class="modal fade" role="dialog">
+                <!--MODAL Tranning Request-->
+                <div id="modalTraningHistory" class="modal fade" role="dialog">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Delete Employee Data</h4>
-                      </div>
-                      <div class="modal-body">
-                        <!--ITEM-->
-                        <div class="box box-default">
-                          <div class="box-header with-border">
-                            <h3 class="box-title">ARE YOU SURE TO DELETE THIS DATA?</h3>
-                          </div>
-                          <div class="box-body">
-                            <div class="pull-right">
-                              <a href="#" class="btn btn-primary btn-flat">NO</a>
-                            </div>
-                            <div class="pull-right">
-                              <a href="#" class="btn btn-danger btn-flat">YES</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--End Modal Employee Delete-->
-                <!--MODAL Update Employee Data-->
-                <div id="modalUpdateEmployeeData" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Update Employee Data</h4>
+                        <h4 class="modal-title">Traning History Data</h4>
                       </div>
                       <div class="modal-body">
                         <!--COnfig ITEM-->
@@ -281,58 +252,59 @@
                             <h3 class="box-title">Config</h3>
                           </div> -->
                           <div class="box-body">
-                            <form name="">
-                              <div class="form-group">
-                                <div class="row">
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Company Name</label>
-                                    <input type="text" class="form-control" value="Blibli.com"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Department Name</label>
-                                    <input type="text" class="form-control" value="Developer"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Employee Code</label>
-                                    <input type="text" class="form-control" value="ABC123"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Employee Name</label>
-                                    <input type="text" class="form-control" value="HRD"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Email</label>
-                                    <input type="text" class="form-control" value="user@mail.com"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Position</label>
-                                    <input type="text" class="form-control" value="Senior HRD"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Direct Superior</label>
-                                    <input type="text" class="form-control" value="User2"></input>
-                                    <br/>
-                                  </div>
-                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <label class="label label-primary">Status</label>
-                                    <input type="text" class="form-control" value="Active"></input>
-                                    <br/>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <br/>
-                                  <button type="submit" class="btn btn-success pull-right"><i class="fa fa-save"></i> Save</button>
-                                </div>
-                              </div>
-                            </form>
+                            <table id="trainngHistoryTable" class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+
+                                  <th>Traning Code</th>
+                                  <th>Traning Topic</th>
+                                  <th>Traning Venue</th>
+                                  <th>Date</th>
+                                  <th>Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+
+                                    <td>1/GDN-HQ/xx/xx</td>
+                                    <td>Spring Framework</td>
+                                    <td>GDN Hall</td>
+                                    <td>29 May 2017</td>
+                                    <td>On Progress</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <table id="additionalTable" class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Staus</th>
+                                  <th>Info</th>
+                                  <th>Additional</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                    <td>
+                                      .<br/>
+                                      .<br/>
+                                      .<br/>
+                                      .<br/>
+                                    </td>
+                                    <td>
+                                      Training Type <br/>
+                                      Training Description <br/>
+                                      Vendor Name<br/>
+                                      Vendor Contact<br/>
+                                      Bases on PDP<br/>
+                                      Development Plan<br/>
+                                    </td>
+                                    <td>
+                                      Note : <br/>
+                                      Additional Files : <br/>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                         <!--TABLE For listing something?-->
