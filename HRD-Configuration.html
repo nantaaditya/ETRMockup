@@ -25,6 +25,8 @@
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
     <script src="static/mylib/currency/idr.js"></script>
+    <link rel="stylesheet" href="static/mylib/modal/customSize.css"/>
+    <link rel="stylesheet" href="static/mylib/dataTables/disableFeature.css"/>
     <script>
       $(document).ready(function(){
         $.fn.dataTable.ext.search.push(
@@ -202,7 +204,7 @@
                 <button class="btn btn-success pull-right" data-toggle="modal" data-target="#modalAddConfig"><i class="fa fa-plus"></i> Config</button>
                 <!--MODAL GLobal Config-->
                 <div id="modalAddConfig" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-lg">
+                  <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -226,13 +228,13 @@
                                 </div>
                               </div>
                               <div class="form-group">
-                                <label class="label label-primary">Budget</label> 
+                                <label class="label label-primary">Budget</label>
                                 <!-- <textarea class="form-control" rows="3"></textarea> -->
                                 <input class ="form-control" id="budget" onkeyup="formatidr()" type="text" />
                               </div>
                               <div class="form-group">
                                 <label class="label label-primary">Active</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <input class="form-control" rows="1"></input>
                               </div>
                               <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
