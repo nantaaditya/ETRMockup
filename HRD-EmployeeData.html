@@ -25,6 +25,8 @@
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
     <!--<script src="static/mylib/currency/idr.js"></script>-->
+    <link rel="stylesheet" href="static/mylib/modal/customSize.css"/>
+    <link rel="stylesheet" href="static/mylib/dataTables/disableFeature.css"/>
     <script>
       $(document).ready(function(){
         $.fn.dataTable.ext.search.push(
@@ -39,7 +41,7 @@
             return false;
           }
         );
-        var table = $('#pdpTable').DataTable();
+        var table = $('#employeeTable').DataTable();
         $('#filterYear').change( function() {
           table.draw();
         });
@@ -213,10 +215,10 @@
                 <!-- Button Placeholder. Right? -->
               </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table id="pdpTable" class="table table-bordered table-striped">
+                <table id="employeeTable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-
+                      <th>No</th>
                       <th>Name</th>
                       <th>Position</th>
                       <th>Department</th>
@@ -226,21 +228,21 @@
                   </thead>
                   <tbody>
                     <tr>
-
+                        <td>12345678</td>
                         <td>Putra Firman Ardiansyah</td>
                         <td>Developer</td>
                         <td>IT</td>
                         <td>Pramuditya Ananta Nur</td>
                         <td>
                           <a href="#" data-toggle="modal" data-target="#modalUpdateEmployeeData"><i class="fa fa-pencil"></i></a>
-                          <a href="#" data-toggle="modal" data-target="#modalDeleteEmployeeData"><i class="fa fa-trash"></i></a>
+                           | <a href="#" data-toggle="modal" data-target="#modalDeleteEmployeeData"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                   </tbody>
                 </table>
                 <!--Start Modal Employee Delete-->
                 <div id="modalDeleteEmployeeData" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-lg">
+                  <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -253,7 +255,7 @@
                             <h3 class="box-title">ARE YOU SURE TO DELETE THIS DATA?</h3>
                           </div>
                           <div class="box-body">
-                            <div class="pull-right">
+                            <div class="pull-left">
                               <a href="#" class="btn btn-primary btn-flat">NO</a>
                             </div>
                             <div class="pull-right">
