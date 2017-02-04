@@ -1,0 +1,429 @@
+<html>
+
+  <head>
+    <title>ETR System</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--CSS-->
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css"/>
+    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css"/>
+    <!--JS-->
+    <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="static/plugins/fastclick/fastclick.js"></script>
+    <script src="static/dist/js/app.min.js"></script>
+    <script src="static/dist/js/demo.js"></script>
+    <!--PLUGIN-->
+    <link rel="stylesheet" href="static/plugins/datatables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css"/>
+    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
+    <link rel="stylesheet" href="static/custom/custom.css"/>
+    <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="static/custom/pluginDataTable.js"></script>
+    <script>
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return '<div class="row">'+
+          '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+            '<ul class="timeline">'+
+              '<li class="time-label">'+
+                '<span class="bg-blue">01 Feb 2017</span>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-file bg-green"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Draft</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-user bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Direct Superior Approval</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-user bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">HR Approval</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-user bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Superior Approval</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-registered bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Registration</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-child bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Training Completion</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-feed bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Feedback</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li>'+
+                '<i class="fa fa-check bg-gray"></i>'+
+                '<div class="timeline-item">'+
+                  '<h3 class="timeline-header text-aqua">Completion</h3>'+
+                '</div>'+
+              '</li>'+
+              '<li class="time-label">'+
+                '<span class="bg-blue">'+
+                  '28 Feb 2017'+
+                '</span>'+
+              '</li>'+
+            '</ul>'+
+          '</div>'+
+          '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">'+
+            '<table>'+
+              '<tr>'+
+                '<th>Training Type</th>'+
+                '<td>'+d.training_type+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Description</th>'+
+                '<td>'+d.training_description+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Vendor Name</th>'+
+                '<td>'+d.vendor_name+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Vendor Contact</th>'+
+                '<td> Phone : '+d.vendor_phone+'<br/> Fax : '+d.vendor_fax+'<br/> Email : '+d.vendor_email+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Based on PDP</th>'+
+                '<td>'+d.based_on_pdp+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Development Plan</th>'+
+                '<td>'+d.development_plan+'</td>'+
+              '</tr>'+
+            '</table>'+
+          '</div>'+
+          '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+            '<table>'+
+              '<tr>'+
+                '<th>Note</th>'+
+                '<td> : '+d.note+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>File</th>'+
+                '<td> : <a href="">'+ d.files+'</a></td>'+
+              '</tr>'+
+            '</table>'+
+          '</div>'+
+        '</div>';
+    }
+
+      $(document).ready(function(){
+        //DATATABLE
+        $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var filter = $('#filterStatus').val();
+            var status = data[5];
+            if ( status.match(filter) || filter.match("All")){
+                return true;
+            }
+            return false;
+          }
+        );
+        var table = $('#approvalTable').DataTable({
+            "ajax": "./data.txt",
+            "columns": [
+                {
+                    "className":      'details-control',
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ''
+                },
+                { "data": "training_code" },
+                { "data": "training_type" },
+                { "data": "training_venue" },
+                { "data": "date" },
+                { "data": "status" },
+                {
+                  "orderable": false,
+                  "data":      null,
+                  "defaultContent" : '<a href="#" data-toggle="modal" data-target="#modalApproval" class="btn btn-info btn-flat"><i class="fa fa-check-square"></i></a>'
+                }
+            ],
+            "order": [[1, 'asc']]
+        });
+        $('#filterStatus').change( function() {
+          table.draw();
+        });
+        $('#approvalTable tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+            if ( row.child.isShown() ) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        //DATEPICKER
+        $('#startDate').datepicker();
+        $('#endDate').datepicker();
+
+        //DYNAMIC FILES
+        var wrapper = $(".addFileWrapper");
+        $(".btn-add").click(function(e){
+          e.preventDefault();
+          $(wrapper).append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="form-group" id="addInputFile"><div class="input-group"><input type="file" class="form-control" name="fileTraining[]"/><div class="input-group-btn"><button type="button" class="btn btn-danger btn-remove"><i class="fa fa-minus"></i></button></div></div></div>');
+          }
+        );
+        $(wrapper).on("click",".btn-remove", function(e){
+          e.preventDefault();
+          $("#addInputFile").remove();
+        });
+
+        //TRAINING TYPE
+        $('#trainingType').on('change', function() {
+          if(this.value=="other"){
+            $("#trainingTypeHide").removeClass("hide");
+          }else{
+            $("#trainingTypeHide").addClass("hide");
+          }
+        });
+      });
+    </script>
+    <style>
+      .btn-add{
+        height: 34px !important;
+      }
+      .btn-remove{
+        height: 34px !important;
+      }
+    </style>
+  </head>
+
+  <body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+      <header class="main-header">
+        <nav class="navbar navbar-static-top">
+          <div class="container">
+
+            <div class="navbar-header">
+              <a href="#" class="navbar-brand"><b>ETR</b> System</a>
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+              </button>
+            </div>
+
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="employee-pdp.html">Personal Development Plan</a></li>
+                <li><a href="employee-training.html">Training</a></li>
+                <li class="active"><a href="employee-training.html">Approval</a></li>
+              </ul>
+            </div>
+
+            <div class="navbar-custom-menu">
+              <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
+                    <span class="hidden-xs">User</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li class="user-header">
+                      <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
+                      <p>
+                        User
+                        <small>Junior Web Developer</small>
+                      </p>
+                    </li>
+                    <!-- Menu Body -->
+                    <li class="user-body">
+                      <div class="row">
+                        <div class="col-xs-6 text-center">
+                          <p>10 PDP</p>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                          <a href="#">5 Training</a>
+                        </div>
+                      </div>
+                    </li>
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                      <div class="pull-left">
+                        <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
+                      </div>
+                      <div class="pull-right">
+                        <a href="#" class="btn btn-danger btn-flat">Sign out</a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <!-- /.navbar-custom-menu -->
+          </div>
+          <!-- /.container-fluid -->
+        </nav>
+      </header>
+
+      <!--CONTENT-->
+      <div class="content-wrapper">
+        <div class="container">
+          <section class="content">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--MODAL PROFILE-->
+                <div id="modalProfile" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Profile</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Company Name</label>
+                            <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Department Name</label>
+                            <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Employee Code</label>
+                            <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Employee Name</label>
+                            <input type="text" class="form-control" disabled="disabled" value="User"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Email</label>
+                            <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Position</label>
+                            <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Direct Superior</label>
+                            <input type="text" class="form-control" disabled="disabled" value="User2"></input>
+                            <br/>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Status</label>
+                            <input type="text" class="form-control" disabled="disabled" value="Active"></input>
+                            <br/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--END MODAL PROFILE-->
+                <!--MODAL APPROVAL-->
+                <div id="modalApproval" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Approval</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <label class="label label-primary">Approval</label>
+                          <br/>
+                          <input type="radio" name="approval"/> Yes
+                          <input type="radio" name="approval"/> No
+                          <br/><br/>
+                          <label class="label label-primary">Note</label>
+                          <textarea class="form-control" rows="4"></textarea>
+                          <br/>
+                          <button type="submit" class="btn btn-flat btn-success pull-right"><i class="fa fa-save"></i> Save</button>
+                        </form>
+                      </div>
+                      <div class="modal-footer"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="text-aqua text-center">Training Approval</h4>
+                <hr></hr>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <label class="label label-primary">Filter</label>
+                <select class="form-control" id="filterStatus">
+                  <option>All</option>
+                  <option>Draft</option>
+                  <option>Progress</option>
+                  <option>Completed</option>
+                </select>
+                <br/>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <table id="approvalTable" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Training Code</th>
+                      <th>Topic</th>
+                      <th>Venue</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Option</th>
+                    </tr>
+                  </thead>
+
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!--FOOTER-->
+      <footer class="main-footer">
+        <div class="container">
+          <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+          </div>
+          <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
+        </div>
+      </footer>
+
+    </div>
+  </body>
+
+</html>
