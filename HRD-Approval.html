@@ -99,6 +99,7 @@
           '</div>'+
           '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
             '<table>'+
+              '<b>Additional Info</b>'+
               '<tr>'+
                 '<th>Note</th>'+
                 '<td> : '+d.note+'</td>'+
@@ -106,6 +107,22 @@
               '<tr>'+
                 '<th>File</th>'+
                 '<td> : <a href="">'+ d.files+'</a></td>'+
+              '</tr>'+
+            '</table>'+
+            '<br>'+
+            '<table>'+
+              '<b>Status Approval Supperior</b>'+
+              '<tr>'+
+                '<th>Supperior 1</th>'+
+                '<td> : '+d.status_supperior_1+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Supperior 2</th>'+
+                '<td> : '+d.status_supperior_2+'</td>'+
+              '</tr>'+
+              '<tr>'+
+                '<th>Supperior 3</th>'+
+                '<td> : '+d.status_supperior_3+'</td>'+
               '</tr>'+
             '</table>'+
           '</div>'+
@@ -125,7 +142,7 @@
           }
         );
         var table = $('#approvalTable').DataTable({
-            "ajax": "./data.txt",
+            "ajax": "./dataHRD.txt",
             "columns": [
                 {
                     "className":      'details-control',
