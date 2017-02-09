@@ -19,6 +19,9 @@
     "date": "01 Jan 17 - 01 Feb 17",
 	  "note": "-",
 	  "files": "training_registration_info.pdf",
+    "status_supperior_1":"yes",
+    "status_supperior_2":"yes",
+    "status_supperior_3":"no",
     "status": "Draft"
     }
   ]
