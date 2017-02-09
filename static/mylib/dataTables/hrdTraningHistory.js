@@ -107,12 +107,7 @@ function format ( d ) {
             { "data": "employee_name" },
             { "data": "employee_position" },
             { "data": "employee_department" },
-            { "data": "employee_direct_supperior" },
-            {
-              "orderable": false,
-              "data":      null,
-              "defaultContent" : '-'
-            }
+            { "data": "employee_direct_supperior" }
         ],
         "columnDefs": [{
           "defaultContent": "No Data",
