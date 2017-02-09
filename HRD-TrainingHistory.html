@@ -20,35 +20,18 @@
     <link rel="stylesheet" href="static/plugins/datatables/dataTables.bootstrap.css"/>
     <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css"/>
     <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
+    <link rel="stylesheet" href="static/custom/custom.css"/>
     <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
-    <!--<script src="static/mylib/currency/idr.js"></script>-->
+    <link rel="stylesheet" href="static/mylib/modal/customSize.css"/>
+    <link rel="stylesheet" href="static/mylib/dataTables/disableFeature.css"/>
     <script>
-      $(document).ready(function(){
-        $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var filterYear = parseInt( $('#filterYear').val(), 10 );
-            var year = parseFloat( data[1] ) || 0; // use data for the age column
 
-            if ( ( isNaN( filterYear ) ) ||
-                 ( year == filterYear ) ){
-                return true;
-            }
-            return false;
-          }
-        );
-        var table = $('#pdpTable').DataTable();
-        $('#filterYear').change( function() {
-          table.draw();
-        });
-        $('#pdpItemTable').DataTable();
-        $('#filterYear').datepicker({
-          format: " yyyy", viewMode: "years", minViewMode: "years"
-        });
-      });
     </script>
+    <!-- Load Data Tables-->
+    <script src="static/mylib/dataTables/hrdTraningHistory.js"></script>
 
   </head>
 
@@ -185,38 +168,62 @@
                 <!--END MODAL PROFILE-->
               </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4 class="text-aqua text-center">Training History</h4>
+                <h4 class="text-aqua text-center"></h4>
                 <hr></hr>
               </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <label class="label label-primary">Filter</label>
-                <!-- <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                  <input type="text" class="form-control" id="filterYear" name="filterYear" >
-                </div> -->
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Filter by
-                  <span class="caret"></span></button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Department</a></li>
-                    <li><a href="#">-</a></li>
-                    <li><a href="#">-</a></li>
-                    <li><a href="#">-</a></li>
-                    <li><a href="#">-</a></li>
-                  </ul>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                  <label class="label label-primary">Departmen</label>
+                  <select class="form-control" id="filterDepartment">
+                    <option>All</option>
+                    <option>IT</option>
+                    <option>HRD</option>
+                    <option>Customer Service</option>
+                  </select>
+                  <br/>
                 </div>
-                <br/>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                  <label class="label label-primary">Position</label>
+                  <select class="form-control" id="filterPosition">
+                    <option>All</option>
+                    <option>-</option>
+                    <option>-</option>
+                    <option>-</option>
+                  </select>
+                  <br/>
+                </div>
               </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                  <label class="label label-primary">Direct Superior</label>
+                  <select class="form-control" id="filterDirectSup">
+                    <option>All</option>
+                    <option>-</option>
+                    <option>-</option>
+                    <option>-</option>
+                  </select>
+                  <br/>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                  <label class="label label-primary">Employee</label>
+                  <select class="form-control" id="filterEmployee">
+                    <option>All</option>
+                    <option>-</option>
+                    <option>-</option>
+                    <option>-</option>
+                  </select>
+                  <br/>
+                </div>
+              </div>
+
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <!-- Button Placeholder. Right? -->
               </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table id="pdpTable" class="table table-bordered table-striped">
+                <table id="historyEmployeeTable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-
+                      <th></th>
                       <th>Name</th>
                       <th>Position</th>
                       <th>Department</th>
@@ -224,18 +231,7 @@
                       <th>Option</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
 
-                        <td>Putra Firman Ardiansyah</td>
-                        <td>Developer</td>
-                        <td>IT</td>
-                        <td>Pramuditya Ananta Nur</td>
-                        <td>
-                          <a href="#" data-toggle="modal" data-target="#modalTraningHistory"><i class="fa fa-eye"></i></a>
-                        </td>
-                    </tr>
-                  </tbody>
                 </table>
                 <!--MODAL Tranning Request-->
                 <div id="modalTraningHistory" class="modal fade" role="dialog">
