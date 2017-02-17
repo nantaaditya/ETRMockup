@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css"/>
     <!--JS-->
     <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.js"></script>
     <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="static/plugins/fastclick/fastclick.js"></script>
     <script src="static/dist/js/app.min.js"></script>
@@ -22,75 +22,54 @@
     <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
     <link rel="stylesheet" href="static/custom/custom.css"/>
     <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="static/plugins/daterangepicker/moment.js"></script>
     <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="static/custom/pluginDataTable.js"></script>
+    <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script>
     function format ( d ) {
         // `d` is the original data object for the row
         return '<div class="row">'+
-          '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+          '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
             '<ul class="timeline">'+
               '<li class="time-label">'+
                 '<span class="bg-blue">01 Feb 2017</span>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-file bg-green"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Draft</h3>'+
-                '</div>'+
+                '<i class="fa fa-file bg-green" data-toggle="tooltip" title="Draft"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Direct Superior Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Direct Superior"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">HR Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="HR"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Superior Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Superior"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-registered bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Registration</h3>'+
-                '</div>'+
+                '<i class="fa fa-registered bg-gray" data-toggle="tooltip" title="Registration"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-child bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Training Completion</h3>'+
-                '</div>'+
+                '<i class="fa fa-child bg-gray" data-toggle="tooltip" title="Training Complete"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-feed bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Feedback</h3>'+
-                '</div>'+
+                '<i class="fa fa-feed bg-gray" data-toggle="tooltip" title="Feedback"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-check bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Completion</h3>'+
-                '</div>'+
-              '</li>'+
-              '<li class="time-label">'+
-                '<span class="bg-blue">'+
-                  '28 Feb 2017'+
-                '</span>'+
+                '<i class="fa fa-check bg-gray" data-toggle="tooltip" title="Completion" ></i>'+
+                '<br/>'+
               '</li>'+
             '</ul>'+
           '</div>'+
-          '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">'+
+          '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
             '<table>'+
               '<tr>'+
                 '<th>Training Type</th>'+
@@ -134,6 +113,8 @@
     }
 
       $(document).ready(function(){
+        //POPOVER
+        $('[data-toggle="tooltip"]').tooltip();
         //DATATABLE
         $.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
@@ -165,10 +146,12 @@
                   "defaultContent" : '<a href="#" data-toggle="modal" data-target="#modalTrainingHistory"><i class="fa fa-history"></i></a>'+
                                       ' | <a href="#" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-pencil"></i></a>'+
                                       ' | <a href="#" data-toggle="modal" data-target="#modalQuestion"><i class="fa fa-question"></i></a>'+
+                                      ' | <a href="#" data-toggle="modal" data-target="#modalActionPlan"><i class="fa fa-upload"></i></a>'+
                                       ' | <a href="#"><i class="fa fa-check"></i></a>'+
                                       ' | <a href="#"><i class="fa fa-trash"></i></a>'}
             ],
-            "order": [[1, 'asc']]
+            "order": [[1, 'asc']],
+            "searching": false
         });
         $('#filterStatus').change( function() {
           table.draw();
@@ -189,6 +172,7 @@
         //DATEPICKER
         $('#startDate').datepicker();
         $('#endDate').datepicker();
+        $('#filterDate').daterangepicker({format:"DD MMM YYYY"});
 
         //DYNAMIC FILES
         var wrapper = $(".addFileWrapper");
@@ -363,17 +347,15 @@
                         <table class="table table-hover table-bordered table-striped" id="trainingHistoryTable">
                           <thead>
                             <tr>
-                              <th>Approver</th>
-                              <th>Department</th>
+                              <th>Initiator</th>
                               <th>Date</th>
                               <th>Status</th>
-                              <th>Note</th>
+                              <th>Description</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
                               <td>Senior Developer</td>
-                              <td>Technology</td>
                               <td>01 Feb 2017</td>
                               <td>Approved</td>
                               <td>-</td>
@@ -395,16 +377,7 @@
                       </div>
                       <div class="modal-body">
                         <div class="row">
-                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <label>File to Download</label>
-                            <a href="#"><i class="fa fa-file-word-o"></i> Form Perencanaan Aplikasi Pengembangan Karyawan</a>
-                          </div>
                           <form>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <label class="label label-primary">Upload File</label>
-                              <input type="file" class="form-control"/>
-                              <br/>
-                            </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <table class="table table-striped">
                                 <thead>
@@ -523,23 +496,84 @@
                     </div>
                   </div>
                 </div>
+                <!--MODAL ACTION PLAN-->
+                <div id="modalActionPlan" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Action Plan</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label class="label label-primary"><em class="fa fa-download"></em></label>
+                            <a href="#"><i class="fa fa-file-word-o"></i> FPAPK template</a>
+                            <br/><br/>
+                          </div>
+                          <form>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <label class="label label-primary">Upload File</label>
+                              <input type="file" class="form-control"/>
+                              <br/>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <button class="btn btn-success btn-flat btn-block"><i class="fa fa-save"></i> Save</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="text-aqua text-center">Training Request</h4>
                 <hr></hr>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <label class="label label-primary">Filter</label>
-                <select class="form-control" id="filterStatus">
-                  <option>All</option>
-                  <option>Draft</option>
-                  <option>Progress</option>
-                  <option>Completed</option>
-                </select>
-                <br/>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <label class="label label-primary">Training code</label>
+                    <input type="text" class="form-control"/>
+                    <br/>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <label class="label label-primary">Training topic</label>
+                    <input type="text" class="form-control"/>
+                    <br/>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <label class="label label-primary">State</label>
+                    <select class="form-control" id="filterStatus">
+                      <option>All</option>
+                      <option>Draft</option>
+                      <option>Progress</option>
+                      <option>Completed</option>
+                    </select>
+                    <br/>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <label class="label label-primary">Date</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-clock-o"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="filterDate">
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-plus"></i> Training</button>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <div class="input-group">
+                  <select class="form-control">
+                    <option>Bulk</option>
+                  </select>
+                  <div class="input-group-btn">
+                    <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-plus"></i> Training</button>
+                  </div>
+                </div>
                 <!--MODAL TRAINING-->
                 <div id="modalAddTraining" class="modal fade" role="dialog">
                   <div class="modal-dialog">
@@ -550,7 +584,7 @@
                       </div>
                       <div class="modal-body">
                         <form>
-                          <div class="row addFileWrapper">
+                          <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="form-group">
                                 <label class="label label-primary">Training Topic</label>
@@ -611,6 +645,15 @@
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="form-group">
+                                <label class="label label-primary">Training Description</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                              </div>
+                              <br/>
+                            </div>
+                          </div>
+                          <div class="row addFileWrapper">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="form-group">
                                 <label class="label label-primary" >File Upload</label>
                                 <div class="input-group">
                                   <input type="file" class="form-control" name="fileTraining[]">
@@ -622,12 +665,6 @@
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary">Training Description</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                              </div>
-                            </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <button type="submit" class="btn btn-flat btn-success pull-right"><i class="fa fa-save"></i> Save</button>
                             </div>
