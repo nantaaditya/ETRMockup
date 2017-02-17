@@ -30,67 +30,46 @@
     function format ( d ) {
         // `d` is the original data object for the row
         return '<div class="row">'+
-          '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+          '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
             '<ul class="timeline">'+
               '<li class="time-label">'+
                 '<span class="bg-blue">01 Feb 2017</span>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-file bg-green"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Draft</h3>'+
-                '</div>'+
+                '<i class="fa fa-file bg-green" data-toggle="tooltip" title="Draft"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Direct Superior Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Direct Superior"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">HR Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="HR"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-user bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Superior Approval</h3>'+
-                '</div>'+
+                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Superior"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-registered bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Registration</h3>'+
-                '</div>'+
+                '<i class="fa fa-registered bg-gray" data-toggle="tooltip" title="Registration"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-child bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Training Completion</h3>'+
-                '</div>'+
+                '<i class="fa fa-child bg-gray" data-toggle="tooltip" title="Training Complete"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-feed bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Feedback</h3>'+
-                '</div>'+
+                '<i class="fa fa-feed bg-gray" data-toggle="tooltip" title="Feedback"></i>'+
+                '<br/>'+
               '</li>'+
               '<li>'+
-                '<i class="fa fa-check bg-gray"></i>'+
-                '<div class="timeline-item">'+
-                  '<h3 class="timeline-header text-aqua">Completion</h3>'+
-                '</div>'+
-              '</li>'+
-              '<li class="time-label">'+
-                '<span class="bg-blue">'+
-                  '28 Feb 2017'+
-                '</span>'+
+                '<i class="fa fa-check bg-gray" data-toggle="tooltip" title="Completion" ></i>'+
+                '<br/>'+
               '</li>'+
             '</ul>'+
           '</div>'+
-          '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">'+
+          '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
             '<table>'+
               '<tr>'+
                 '<th>Training Type</th>'+
@@ -162,7 +141,8 @@
                 {
                   "orderable": false,
                   "data":      null,
-                  "defaultContent" : '<a href="#" data-toggle="modal" data-target="#modalApproval" class="btn btn-info btn-flat"><i class="fa fa-check-square"></i></a>'
+                  "defaultContent" : '<a href="#" data-toggle="modal" data-target="#modalApprove" class="btn btn-success btn-flat"><i class="fa fa-check"></i></a>'
+                                    +'<a href="#" data-toggle="modal" data-target="#modalReject" class="btn btn-danger btn-flat"><i class="fa fa-remove"></i></a>'
                 }
             ],
             "order": [[1, 'asc']]
@@ -350,20 +330,15 @@
                 </div>
                 <!--END MODAL PROFILE-->
                 <!--MODAL APPROVAL-->
-                <div id="modalApproval" class="modal fade" role="dialog">
+                <div id="modalApprove" class="modal fade" role="dialog">
                   <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Approval</h4>
+                        <h4 class="modal-title">Approve</h4>
                       </div>
                       <div class="modal-body">
                         <form>
-                          <label class="label label-primary">Approval</label>
-                          <br/>
-                          <input type="radio" name="approval"/> Yes
-                          <input type="radio" name="approval"/> No
-                          <br/><br/>
                           <label class="label label-primary">Note</label>
                           <textarea class="form-control" rows="4"></textarea>
                           <br/>
@@ -374,7 +349,26 @@
                     </div>
                   </div>
                 </div>
-
+                <!--MODAL REJECT-->
+                <div id="modalReject" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Reject</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <label class="label label-primary">Note</label>
+                          <textarea class="form-control" rows="4"></textarea>
+                          <br/>
+                          <button type="submit" class="btn btn-flat btn-success pull-right"><i class="fa fa-save"></i> Save</button>
+                        </form>
+                      </div>
+                      <div class="modal-footer"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="text-aqua text-center">Training Approval</h4>
