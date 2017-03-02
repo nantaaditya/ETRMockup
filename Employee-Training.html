@@ -119,7 +119,7 @@
         $.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
             var filter = $('#filterStatus').val();
-            var status = data[5];
+            var status = data[6];
             if ( status.match(filter) || filter.match("All")){
                 return true;
             }
@@ -129,6 +129,13 @@
         var table = $('#trainingTable').DataTable({
             "ajax": "./data.txt",
             "columns": [
+                {
+                  "orderable":      false,
+                  "data":           null,
+                  "defaultContent": '<div class="checkbox">'+
+                                    '<input type="checkbox" value="">'+
+                                    '</div>'
+                },
                 {
                     "className":      'details-control',
                     "orderable":      false,
@@ -148,7 +155,8 @@
                                       ' | <a href="#" data-toggle="modal" data-target="#modalQuestion"><i class="fa fa-question"></i></a>'+
                                       ' | <a href="#" data-toggle="modal" data-target="#modalActionPlan"><i class="fa fa-upload"></i></a>'+
                                       ' | <a href="#"><i class="fa fa-check"></i></a>'+
-                                      ' | <a href="#"><i class="fa fa-trash"></i></a>'}
+                                      ' | <a href="#"><i class="fa fa-trash"></i></a>'
+                }
             ],
             "order": [[1, 'asc']],
             "searching": false
@@ -254,6 +262,16 @@
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                          <div class="btn-group text-center">
+                            <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
+                            <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
+                            <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
+                          </div>
+                        </div>
+                      </div>
+                      <br/>
                       <div class="pull-left">
                         <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
                       </div>
@@ -681,6 +699,7 @@
                 <table id="trainingTable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
+                      <th></th>
                       <th></th>
                       <th>Training Code</th>
                       <th>Topic</th>
