@@ -1,340 +1,457 @@
 <html>
 
-  <head>
+<head>
     <title>ETR System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!--CSS-->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css"/>
-    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css"/>
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css" />
+    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css" />
     <!--JS-->
     <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="static/js/controller/pdp-controller.js"></script>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>
     <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="static/plugins/fastclick/fastclick.js"></script>
     <script src="static/dist/js/app.min.js"></script>
     <script src="static/dist/js/demo.js"></script>
     <!--PLUGIN-->
-    <link rel="stylesheet" href="static/plugins/datatables/dataTables.bootstrap.css"/>
-    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css"/>
-    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/css/angular-datatables.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/datatables.bootstrap.min.css" />
+    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css" />
     <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/angular-datatables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
     <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
     <script>
-      $(document).ready(function(){
-        //DATA TABLE
-        $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var filterYear = parseInt( $('#filterYear').val(), 10 );
-            var year = parseFloat( data[1] ) || 0; // use data for the age column
+        $(document).ready(function() {
+            $('#filterYear').datepicker({
+                format: " yyyy",
+                viewMode: "years",
+                minViewMode: "years"
+            });
 
-            if ( ( isNaN( filterYear ) ) ||
-                 ( year == filterYear ) ){
-                return true;
-            }
-            return false;
-          }
-        );
-        var table = $('#pdpTable').DataTable();
-        $('#filterYear').change( function() {
-          table.draw();
+            //ADD PDP ITEM
+            var wrapper = $(".addFileWrapper");
+            $(".btn-add").click(function(e) {
+                e.preventDefault();
+                $(wrapper).append(
+                    '<tr id="addInputFile">' +
+                    '<td><textarea class="form-control"></textarea></td>' +
+                    '<td><textarea class="form-control"></textarea></td>' +
+                    '<td><textarea class="form-control"></textarea></td>' +
+                    '<td>' +
+                    '<div class="btn-group-vertical">' +
+                    '<button class="btn btn-danger btn-flat btn-remove"><i class="fa fa-trash"></i> Remove</button>' +
+                    '</div>' +
+                    '</td>' +
+                    '</tr>'
+                );
+            });
+            $(wrapper).on("click", ".btn-remove", function(e) {
+                e.preventDefault();
+                $("#addInputFile").remove();
+            });
         });
-        $('#pdpItemTable').DataTable();
-        $('#filterYear').datepicker({
-          format: " yyyy", viewMode: "years", minViewMode: "years"
-        });
-
-        //ADD PDP ITEM
-        var wrapper = $(".addFileWrapper");
-        $(".btn-add").click(function(e){
-          e.preventDefault();
-          $(wrapper).append(
-            '<tr id="addInputFile">'+
-              '<td><textarea class="form-control"></textarea></td>'+
-              '<td><textarea class="form-control"></textarea></td>'+
-              '<td><textarea class="form-control"></textarea></td>'+
-              '<td>'+
-                '<div class="btn-group-vertical">'+
-                  '<button class="btn btn-danger btn-flat btn-remove"><i class="fa fa-trash"></i> Remove</button>'+
-                '</div>'+
-              '</td>'+
-            '</tr>'
-            );
-          }
-        );
-        $(wrapper).on("click",".btn-remove", function(e){
-          e.preventDefault();
-          $("#addInputFile").remove();
-        });
-      });
     </script>
 
-  </head>
+</head>
 
-  <body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition skin-blue layout-top-nav" ng-app="pdpApp" ng-controller="pdpCtrl">
     <div class="wrapper">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top">
-          <div class="container">
-
-            <div class="navbar-header">
-              <a href="#" class="navbar-brand"><b>ETR</b> System</a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-bars"></i>
-              </button>
-            </div>
-
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="employee-pdp.html">Personal Development Plan</a></li>
-                <li><a href="employee-training.html">Training</a></li>
-              </ul>
-            </div>
-
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                <li class="dropdown user user-menu">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
-                    <span class="hidden-xs">User</span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="user-header">
-                      <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
-                      <p>
-                        User
-                        <small>Junior Web Developer</small>
-                      </p>
-                    </li>
-                    <!-- Menu Body -->
-                    <li class="user-body">
-                      <div class="row">
-                        <div class="col-xs-6 text-center">
-                          <p>10 PDP</p>
-                        </div>
-                        <div class="col-xs-6 text-center">
-                          <a href="#">5 Training</a>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- Menu Footer-->
-                    <li class="user-footer">
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                          <div class="btn-group text-center">
-                            <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
-                            <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
-                            <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
-                          </div>
-                        </div>
-                      </div>
-                      <br/>
-                      <div class="pull-left">
-                        <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
-                      </div>
-                      <div class="pull-right">
-                        <a href="#" class="btn btn-danger btn-flat">Sign out</a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <!-- /.navbar-custom-menu -->
-          </div>
-          <!-- /.container-fluid -->
-        </nav>
-      </header>
-
-      <!--CONTENT-->
-      <div class="content-wrapper">
-        <div class="container">
-          <section class="content">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <!--MODAL PROFILE-->
-                <div id="modalProfile" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Profile</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Company Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Department Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Code</label>
-                            <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="User"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Email</label>
-                            <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Position</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Direct Superior</label>
-                            <input type="text" class="form-control" disabled="disabled" value="User2"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Status</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Active"></input>
-                            <br/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      </div>
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand"><b>ETR</b> System</a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                          <i class="fa fa-bars"></i>
+                        </button>
                     </div>
-                  </div>
+
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="employee-pdp.html">Personal Development Plan</a></li>
+                            <li><a href="employee-training.html">Training</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">User</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
+                                        <p>
+                                            User
+                                            <small>Junior Web Developer</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center">
+                                                <p>10 PDP</p>
+                                            </div>
+                                            <div class="col-xs-6 text-center">
+                                                <a href="#">5 Training</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <div class="btn-group text-center">
+                                                    <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
+                                                    <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
+                                                    <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-danger btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-custom-menu -->
                 </div>
-                <!--END MODAL PROFILE-->
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4 class="text-aqua text-center">Personal Development Plan</h4>
-                <hr></hr>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <label class="label label-primary">Filter</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                  <input type="text" class="form-control" id="filterYear" name="filterYear" >
-                </div>
-                <br/>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddPDP"><i class="fa fa-plus"></i> PDP</button>
-                <!--MODAL PDP-->
-                <div id="modalAddPDP" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add PDP</h4>
-                      </div>
-                      <div class="modal-body">
-                        <!--PDP ITEM-->
-                        <div class="box box-default">
-                          <div class="box-header with-border">
-                            <h3 class="box-title">PDP Item</h3>
-                          </div>
-                          <div class="box-body">
-                            <form>
-                              <div class="form-group">
-                                <label class="label label-primary">PDP File</label>
-                                <input type="file" class="form-control">
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                        <!--TABLE PDP ITEM-->
-                        <div class="box box-default">
-                          <div class="box-header with-border">
-                            <h3 class="box-title">PDP Item</h3>
-                          </div>
-                          <div class="box-body">
-                            <table id="pdpItemTable" class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th>Development Plan</th>
-                                  <th>Purpose</th>
-                                  <th>Planning Step</th>
-                                  <th>Option</th>
-                                </tr>
-                              </thead>
-                              <tbody class="addFileWrapper">
-                                <tr>
-                                  <td><textarea class="form-control"></textarea></td>
-                                  <td><textarea class="form-control"></textarea></td>
-                                  <td><textarea class="form-control"></textarea></td>
-                                  <td>
-                                    <div class="btn-group-vertical">
-                                      <button class="btn btn-danger btn-flat btn-remove"><i class="fa fa-trash"></i> Remove</button>
+                <!-- /.container-fluid -->
+            </nav>
+        </header>
+
+        <!--CONTENT-->
+        <div class="content-wrapper">
+            <div class="container">
+                <section class="content">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--MODAL PROFILE-->
+                            <div id="modalProfile" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Profile</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Company Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Department Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Code</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Email</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Position</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Direct Superior</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User2"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Status</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Active"></input>
+                                                    <br/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
                                     </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                                </div>
+                            </div>
+                            <!--END MODAL PROFILE-->
                         </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button class="btn btn-success btn-flat btn-add pull-left"><i class="fa fa-plus"></i> PDP Item</button>
-                        <button class="btn btn-success btn-flat pull-right"><i class="fa fa-save"></i> Save</button>
-                      </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h4 class="text-aqua text-center">Personal Development Plan</h4>
+                            <hr></hr>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="label label-primary">Filter</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control" id="filterYear" name="filterYear" ng-model="filterYear" ng-change="filterTable()">
+                            </div>
+                            <br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddPDP"><i class="fa fa-plus"></i> PDP</button>
+                            <!--MODAL PDP-->
+                            <div id="modalAddPDP" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Add PDP</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <!--PDP-->
+                                                        <div class="box box-default box-solid">
+                                                            <div class="box-header" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                                <h4>
+                                                                    <p>Period 2017 Semester 1 (January-June)<span class="fa fa-toggle-down pull-right"></i></p>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="collapseOne" class="panel-collapse collapse in">
+                                                                <div class="box-body">
+                                                                    <div class="row" style="margin-bottom:3px">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                            <p>Career Aspiration (1-3 years)<i class="text-red">*</i></p>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                            <input type="text" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin-bottom:3px">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                            <p>Career Aspiration (3-5 years)<i class="text-red">*</i></p>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                            <input type="text" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin-bottom:3px">
+                                                                        <hr/>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                            <p>Challenges in Current Position<i class="text-red">*</i></p>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                            <textarea rows="3" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin-bottom:3px">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                            <p>Challenges to Get Career Aspiration<i class="text-red">*</i></p>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                            <textarea rows="3" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                            <p>Development Plan<i class="text-red">*</i></p>
+                                                                        </div>
+                                                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                            <textarea rows="3" class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--PDP ITEM-->
+                                                        <div class="box box-default box-solid">
+                                                            <div class="box-header" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                                <h4>
+                                                                    <p>Personal Development Plan Item<i class="fa fa-toggle-down pull-right"></i></p>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="collapseTwo" class="panel-collapse collapse in" style="height:329px; overflow-y:scroll; overflow-x:hidden">                                                                
+                                                                <div class="box-body">
+                                                                    <!--COMPETENCY-->
+                                                                    <div ng-repeat="cIter in iterator track by $index"> 
+                                                                      <div class="row">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                              <p>Competency<i class="text-red">*</i></p>
+                                                                          </div>
+                                                                          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                              <input type="text" class="form-control" ng-model="competency[$index]"/>
+                                                                          </div>
+                                                                      </div>
+                                                                      <br/>
+                                                                      <div class="box">
+                                                                          <div class="box-header">
+                                                                            <div class="row">
+                                                                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <p>Activity</p>
+                                                                              </div>
+                                                                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <p>Purpose</p>
+                                                                              </div>
+                                                                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <p>Planning Step</p>
+                                                                              </div>
+                                                                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                                                <p>Option</p>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                                          <!--ACTIVITY-->
+                                                                          <div class="box-body">
+                                                                            <div class="row" style="margin-bottom:3px;" ng-repeat="item in cIter track by $index" >
+                                                                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <textarea class="form-control" rows="2" ></textarea>
+                                                                              </div>
+                                                                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                                                <textarea class="form-control" rows="2" ></textarea>
+                                                                              </div>
+                                                                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <textarea class="form-control" rows="2" ></textarea>
+                                                                              </div>
+                                                                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                                                <button class="btn btn-flat btn-danger" ><i class="fa fa-trash"></i></button>
+                                                                              </div>
+                                                                            </div>                                                                        
+                                                                            <div class="row">
+                                                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                                <br/>
+                                                                                <button class="btn btn-flat btn-primary" ng-click="addItem($index)">Add Activity</button>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>                                                                        
+                                                                          <!--ACTIVITY-->
+                                                                      </div>
+                                                                    </div>
+                                                                    <br/>
+                                                                    <div class="btn-group">
+                                                                      <button class="btn btn-flat btn-primary" ng-click="addCompetency()">Add competency</button>
+                                                                      <button class="btn btn-flat btn-danger" ng-click="removeCompetency()">Delete competency</button>
+                                                                    </div>
+                                                                    <!--COMPETENCY-->
+                                                                </div>                                                                
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <!--SUPPORT-->
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <hr/>
+                                                       <div class="row" style="margin-bottom:4px;">
+                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                           <p>Support from superior</p>
+                                                         </div>
+                                                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                           <input type="text" class="form-control"/>
+                                                         </div>
+                                                       </div>
+                                                       <div class="row" style="margin-bottom:4px;">
+                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                           <p>Support from colleague</p>
+                                                         </div>
+                                                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                           <input type="text" class="form-control"/>
+                                                         </div>
+                                                       </div>
+                                                       <div class="row" style="margin-bottom:4px;">
+                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                           <p>Other</p>
+                                                         </div>
+                                                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                           <input type="text" class="form-control"/>
+                                                         </div>
+                                                       </div>
+                                                       <hr/>
+                                                       <div class="row">
+                                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                           <p>Personal Development Plan File<i class="text-red">*</i></p>
+                                                         </div>
+                                                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                           <input type="file" class="form-control"/>
+                                                         </div>
+                                                       </div> 
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <hr/>
+                                                        <div class="btn-group pull-right">
+                                                            <button class="btn btn-success btn-flat" ng-click="show()"> Save</button>
+                                                            <button class="btn btn-default btn-flat"> Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <table dt-instance="pdpTable" datatable="" class="table table-bordered table-striped" dt-options="dtOptions">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Created Date</th>
+                                        <th class="text-center">Year</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Position</th>
+                                        <th class="text-center">Direct Superior</th>
+                                        <th class="text-center">Option</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>02 Feb 2017</td>
+                                        <td>2017</td>
+                                        <td>User</td>
+                                        <td>Junior Web Developer</td>
+                                        <td>Senior User</td>
+                                        <td>
+                                            <a href="#" data-toggle="modal" data-target="#modalAddPDP"><i class="fa fa-pencil"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table id="pdpTable" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Created Date</th>
-                      <th>Year</th>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Direct Superior</th>
-                      <th>Option</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                        <td>02 Feb 2017</td>
-                        <td>2017</td>
-                        <td>User</td>
-                        <td>Junior Web Developer</td>
-                        <td>Senior User</td>
-                        <td>
-                          <a href="#" data-toggle="modal" data-target="#modalAddPDP"><i class="fa fa-pencil"></i></a>
-                        </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                </section>
             </div>
-          </section>
         </div>
-      </div>
 
-      <!--FOOTER-->
-      <footer class="main-footer">
-        <div class="container">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-          </div>
-          <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
-        </div>
-      </footer>
+        <!--FOOTER-->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0.0
+                </div>
+                <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
+            </div>
+        </footer>
 
     </div>
-  </body>
+</body>
 
 </html>
