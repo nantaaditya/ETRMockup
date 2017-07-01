@@ -1,733 +1,691 @@
-<html>
+<html ng-app="trainingApp" ng-controller="trainingCtrl">
 
-  <head>
+<head>
     <title>ETR System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!--CSS-->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css"/>
-    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css"/>
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css" />
+    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css" />
     <!--JS-->
     <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="static/js/controller/employee/training-controller.js"></script>
     <script src="static/bootstrap/js/bootstrap.js"></script>
     <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="static/plugins/fastclick/fastclick.js"></script>
     <script src="static/dist/js/app.min.js"></script>
     <script src="static/dist/js/demo.js"></script>
     <!--PLUGIN-->
-    <link rel="stylesheet" href="static/plugins/datatables/dataTables.bootstrap.css"/>
-    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css"/>
-    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
-    <link rel="stylesheet" href="static/custom/custom.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/css/angular-datatables.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/datatables.bootstrap.min.css" />
+    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css" />
+    <link rel="stylesheet" href="static/custom/custom.css" />
     <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/angular-datatables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
     <script src="static/plugins/daterangepicker/moment.js"></script>
     <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script>
-    function format ( d ) {
-        // `d` is the original data object for the row
-        return '<div class="row">'+
-          '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
-            '<ul class="timeline">'+
-              '<li class="time-label">'+
-                '<span class="bg-blue">01 Feb 2017</span>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-file bg-green" data-toggle="tooltip" title="Draft"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Direct Superior"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="HR"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-user bg-gray" data-toggle="tooltip" title="Superior"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-registered bg-gray" data-toggle="tooltip" title="Registration"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-child bg-gray" data-toggle="tooltip" title="Training Complete"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-feed bg-gray" data-toggle="tooltip" title="Feedback"></i>'+
-                '<br/>'+
-              '</li>'+
-              '<li>'+
-                '<i class="fa fa-check bg-gray" data-toggle="tooltip" title="Completion" ></i>'+
-                '<br/>'+
-              '</li>'+
-            '</ul>'+
-          '</div>'+
-          '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
-            '<table>'+
-              '<tr>'+
-                '<th>Training Type</th>'+
-                '<td>'+d.training_type+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>Description</th>'+
-                '<td>'+d.training_description+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>Vendor Name</th>'+
-                '<td>'+d.vendor_name+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>Vendor Contact</th>'+
-                '<td> Phone : '+d.vendor_phone+'<br/> Fax : '+d.vendor_fax+'<br/> Email : '+d.vendor_email+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>Based on PDP</th>'+
-                '<td>'+d.based_on_pdp+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>Development Plan</th>'+
-                '<td>'+d.development_plan+'</td>'+
-              '</tr>'+
-            '</table>'+
-          '</div>'+
-          '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
-            '<table>'+
-              '<tr>'+
-                '<th>Note</th>'+
-                '<td> : '+d.note+'</td>'+
-              '</tr>'+
-              '<tr>'+
-                '<th>File</th>'+
-                '<td> : <a href="">'+ d.files+'</a></td>'+
-              '</tr>'+
-            '</table>'+
-          '</div>'+
-        '</div>';
-    }
+        $(document).ready(function() {
+            //POPOVER
+            $('[data-toggle="tooltip"]').tooltip();
+            //DATEPICKER
+            $('#startDate').datepicker();
+            $('#endDate').datepicker();
+            $('#filterDate').daterangepicker({
+                format: "DD MMM YYYY"
+            });
 
-      $(document).ready(function(){
-        //POPOVER
-        $('[data-toggle="tooltip"]').tooltip();
-        //DATATABLE
-        $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var filter = $('#filterStatus').val();
-            var status = data[6];
-            if ( status.match(filter) || filter.match("All")){
-                return true;
-            }
-            return false;
-          }
-        );
-        var table = $('#trainingTable').DataTable({
-            "ajax": "./data.txt",
-            "columns": [
-                {
-                  "orderable":      false,
-                  "data":           null,
-                  "defaultContent": '<div class="checkbox">'+
-                                    '<input type="checkbox" value="">'+
-                                    '</div>'
-                },
-                {
-                    "className":      'details-control',
-                    "orderable":      false,
-                    "data":           null,
-                    "defaultContent": ''
-                },
-                { "data": "training_code" },
-                { "data": "training_type" },
-                { "data": "training_venue" },
-                { "data": "date" },
-                { "data": "status" },
-                {
-                  "orderable": false,
-                  "data":      null,
-                  "defaultContent" : '<a href="#" data-toggle="modal" data-target="#modalTrainingHistory"><i class="fa fa-history"></i></a>'+
-                                      ' | <a href="#" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-pencil"></i></a>'+
-                                      ' | <a href="#" data-toggle="modal" data-target="#modalQuestion"><i class="fa fa-question"></i></a>'+
-                                      ' | <a href="#" data-toggle="modal" data-target="#modalActionPlan"><i class="fa fa-upload"></i></a>'+
-                                      ' | <a href="#"><i class="fa fa-check"></i></a>'+
-                                      ' | <a href="#"><i class="fa fa-trash"></i></a>'
+            //TRAINING TYPE
+            $('#trainingType').on('change', function() {
+                if (this.value == "other") {
+                    $("#trainingTypeHide").removeClass("hide");
+                } else {
+                    $("#trainingTypeHide").addClass("hide");
                 }
-            ],
-            "order": [[1, 'asc']],
-            "searching": false
+            });
         });
-        $('#filterStatus').change( function() {
-          table.draw();
-        });
-        $('#trainingTable tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row( tr );
-            if ( row.child.isShown() ) {
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                row.child(format(row.data())).show();
-                tr.addClass('shown');
-            }
-        });
-
-        //DATEPICKER
-        $('#startDate').datepicker();
-        $('#endDate').datepicker();
-        $('#filterDate').daterangepicker({format:"DD MMM YYYY"});
-
-        //DYNAMIC FILES
-        var wrapper = $(".addFileWrapper");
-        $(".btn-add").click(function(e){
-          e.preventDefault();
-          $(wrapper).append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="form-group" id="addInputFile"><div class="input-group"><input type="file" class="form-control" name="fileTraining[]"/><div class="input-group-btn"><button type="button" class="btn btn-danger btn-remove"><i class="fa fa-minus"></i></button></div></div></div>');
-          }
-        );
-        $(wrapper).on("click",".btn-remove", function(e){
-          e.preventDefault();
-          $("#addInputFile").remove();
-        });
-
-        //TRAINING TYPE
-        $('#trainingType').on('change', function() {
-          if(this.value=="other"){
-            $("#trainingTypeHide").removeClass("hide");
-          }else{
-            $("#trainingTypeHide").addClass("hide");
-          }
-        });
-      });
     </script>
     <style>
-      .btn-add{
-        height: 34px !important;
-      }
-      .btn-remove{
-        height: 34px !important;
-      }
+        .btn-add {
+            height: 34px !important;
+        }
+        
+        .btn-remove {
+            height: 34px !important;
+        }
     </style>
-  </head>
+</head>
 
-  <body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition skin-blue layout-top-nav">
     <div class="wrapper">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top">
-          <div class="container">
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand"><b>ETR</b> System</a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="employee-pdp.html">Personal Development Plan</a></li>
+                            <li class="active"><a href="employee-training.html">Training</a></li>
+                        </ul>
+                    </div>
 
-            <div class="navbar-header">
-              <a href="#" class="navbar-brand"><b>ETR</b> System</a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-bars"></i>
-              </button>
-            </div>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">User</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
+                                        <p>
+                                            User
+                                            <small>Junior Web Developer</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center">
+                                                <p>10 PDP</p>
+                                            </div>
+                                            <div class="col-xs-6 text-center">
+                                                <a href="#">5 Training</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <div class="btn-group text-center">
+                                                    <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
+                                                    <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
+                                                    <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-danger btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-custom-menu -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </header>
 
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li><a href="employee-pdp.html">Personal Development Plan</a></li>
-                <li class="active"><a href="employee-training.html">Training</a></li>
-              </ul>
-            </div>
-
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                <li class="dropdown user user-menu">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
-                    <span class="hidden-xs">User</span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="user-header">
-                      <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
-                      <p>
-                        User
-                        <small>Junior Web Developer</small>
-                      </p>
-                    </li>
-                    <!-- Menu Body -->
-                    <li class="user-body">
-                      <div class="row">
-                        <div class="col-xs-6 text-center">
-                          <p>10 PDP</p>
-                        </div>
-                        <div class="col-xs-6 text-center">
-                          <a href="#">5 Training</a>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- Menu Footer-->
-                    <li class="user-footer">
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                          <div class="btn-group text-center">
-                            <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
-                            <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
-                            <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
-                          </div>
-                        </div>
-                      </div>
-                      <br/>
-                      <div class="pull-left">
-                        <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
-                      </div>
-                      <div class="pull-right">
-                        <a href="#" class="btn btn-danger btn-flat">Sign out</a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <!-- /.navbar-custom-menu -->
-          </div>
-          <!-- /.container-fluid -->
-        </nav>
-      </header>
-
-      <!--CONTENT-->
-      <div class="content-wrapper">
-        <div class="container">
-          <section class="content">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <!--MODAL PROFILE-->
-                <div id="modalProfile" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Profile</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Company Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Department Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Code</label>
-                            <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="User"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Email</label>
-                            <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Position</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Direct Superior</label>
-                            <input type="text" class="form-control" disabled="disabled" value="User2"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Status</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Active"></input>
-                            <br/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--END MODAL PROFILE-->
-                <!--MODAL TRAINING HISTORY-->
-                <div id="modalTrainingHistory" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Training History</h4>
-                      </div>
-                      <div class="modal-body">
-                        <table class="table table-hover table-bordered table-striped" id="trainingHistoryTable">
-                          <thead>
-                            <tr>
-                              <th>Initiator</th>
-                              <th>Date</th>
-                              <th>Status</th>
-                              <th>Description</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Senior Developer</td>
-                              <td>01 Feb 2017</td>
-                              <td>Approved</td>
-                              <td>-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="modal-footer"></div>
-                    </div>
-                  </div>
-                </div>
-                <!--MODAL QUEST-->
-                <div id="modalQuestion" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Question</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <form>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <table class="table table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>No</th>
-                                    <th>Sebelum Pembelajaran</th>
-                                    <th>Opsi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>1</td>
-                                    <td>Terdapat Informasi yang cukup dalam undangan sebelum menghadiri kegiatan ini.</td>
-                                    <td>
-                                      <div class="input-group">
-                                        <input type="radio" name="q1"/>Ya
-                                        <input type="radio" name="q1"/>Tidak
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <table class="table table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>No</th>
-                                    <th>Selama Pembelajaran</th>
-                                    <th>Opsi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>2</td>
-                                    <td>Pengetahuan dan keterampilan yang diajarkan mendukung pencapaian tujuan pembelajaran</td>
-                                    <td>
-                                      <div class="input-group">
-                                        <input type="radio" name="q2"/>Ya
-                                        <input type="radio" name="q2"/>Tidak
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <table class="table table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>No</th>
-                                    <th>Sesudah Pembelajaran</th>
-                                    <th>Opsi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>3</td>
-                                    <td>Semua tujuan pembelajaran tercapai.</td>
-                                    <td>
-                                      <div class="input-group">
-                                        <input type="radio" name="q3"/>Ya
-                                        <input type="radio" name="q3"/>Tidak
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <table class="table table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>No</th>
-                                    <th>Lain-lain</th>
-                                    <th>Opsi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>4</td>
-                                    <td>Tempat acara bersih dan nyaman.</td>
-                                    <td>
-                                      <div class="input-group">
-                                        <input type="radio" name="q4"/>Ya
-                                        <input type="radio" name="q4"/>Tidak
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <label class="label label-primary">Pengetahuan yang saya dapatkan dari training ini:</label>
-                              <textarea class="form-control" rows="3"></textarea>
-                              <br/>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <label class="label label-primary">Bagaimana anda menerapkan ilmu dari pelatihan ini kedalam pekerjaan anda:</label>
-                              <textarea class="form-control" rows="3"></textarea>
-                              <br/>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <label class="label label-primary">Kesan dan saran mengenai training ini:</label>
-                              <textarea class="form-control" rows="3"></textarea>
-                              <br/>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <button class="btn btn-block btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--MODAL ACTION PLAN-->
-                <div id="modalActionPlan" class="modal fade" role="dialog">
-                  <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Action Plan</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <label class="label label-primary"><em class="fa fa-download"></em></label>
-                            <a href="#"><i class="fa fa-file-word-o"></i> FPAPK template</a>
-                            <br/><br/>
-                          </div>
-                          <form>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <label class="label label-primary">Upload File</label>
-                              <input type="file" class="form-control"/>
-                              <br/>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <button class="btn btn-success btn-flat btn-block"><i class="fa fa-save"></i> Save</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4 class="text-aqua text-center">Training Request</h4>
-                <hr></hr>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <label class="label label-primary">Training code</label>
-                    <input type="text" class="form-control"/>
-                    <br/>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <label class="label label-primary">Training topic</label>
-                    <input type="text" class="form-control"/>
-                    <br/>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <label class="label label-primary">State</label>
-                    <select class="form-control" id="filterStatus">
-                      <option>All</option>
-                      <option>Draft</option>
-                      <option>Progress</option>
-                      <option>Completed</option>
-                    </select>
-                    <br/>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <label class="label label-primary">Date</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-clock-o"></i>
-                      </div>
-                      <input type="text" class="form-control pull-right" id="filterDate">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div class="input-group">
-                  <select class="form-control">
-                    <option>Bulk</option>
-                  </select>
-                  <div class="input-group-btn">
-                    <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-plus"></i> Training</button>
-                  </div>
-                </div>
-                <!--MODAL TRAINING-->
-                <div id="modalAddTraining" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Training Request</h4>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary">Training Topic</label>
-                                <input type="text" class="form-control"/>
-                              </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary">Training Type</label>
-                                <select class="form-control" id="trainingType">
-                                  <option>Administration</option>
-                                  <option>Business/Management</option>
-                                  <option>Computer</option>
-                                  <option>Language</option>
-                                  <option>Leadership</option>
-                                  <option>Self Development</option>
-                                  <option>Technical</option>
-                                  <option value="other">Other</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="trainingTypeHide">
-                              <div class="form-group">
-                                <label class="label label-primary">Training Type</label>
-                                <input type="text" class="form-control"/>
-                              </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <div class="form-group">
-                                <label class="label label-primary">Start Date</label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                  </div>
-                                  <input type="text" class="form-control" id="startDate" onkeydown="return false">
+        <!--CONTENT-->
+        <div class="content-wrapper">
+            <div class="container">
+                <section class="content">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--MODAL PROFILE-->
+                            <div id="modalProfile" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Profile</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Company Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Department Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Code</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Email</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Position</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Direct Superior</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User2"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Status</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Active"></input>
+                                                    <br/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <div class="form-group">
-                                <label class="label label-primary">End Date</label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                  </div>
-                                  <input type="text" class="form-control" id="endDate" onkeydown="return false">
+                            <!--END MODAL PROFILE-->
+                            <!--MODAL TRAINING HISTORY-->
+                            <div id="modalTrainingHistory" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Training History</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-hover table-bordered table-striped" id="trainingHistoryTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Initiator</th>
+                                                        <th>Date</th>
+                                                        <th>Status</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Senior Developer</td>
+                                                        <td>01 Feb 2017</td>
+                                                        <td>Approved</td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer"></div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary">PDP Item</label>
+                            <!--MODAL QUEST-->
+                            <div id="modalQuestion" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Question</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <form>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Sebelum Pembelajaran</th>
+                                                                    <th>Opsi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>Terdapat Informasi yang cukup dalam undangan sebelum menghadiri kegiatan ini.</td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="radio" name="q1" />Ya
+                                                                            <input type="radio" name="q1" />Tidak
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Selama Pembelajaran</th>
+                                                                    <th>Opsi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td>Pengetahuan dan keterampilan yang diajarkan mendukung pencapaian tujuan pembelajaran</td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="radio" name="q2" />Ya
+                                                                            <input type="radio" name="q2" />Tidak
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Sesudah Pembelajaran</th>
+                                                                    <th>Opsi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td>Semua tujuan pembelajaran tercapai.</td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="radio" name="q3" />Ya
+                                                                            <input type="radio" name="q3" />Tidak
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Lain-lain</th>
+                                                                    <th>Opsi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td>Tempat acara bersih dan nyaman.</td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="radio" name="q4" />Ya
+                                                                            <input type="radio" name="q4" />Tidak
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="label label-primary">Pengetahuan yang saya dapatkan dari training ini:</label>
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="label label-primary">Bagaimana anda menerapkan ilmu dari pelatihan ini kedalam pekerjaan anda:</label>
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="label label-primary">Kesan dan saran mengenai training ini:</label>
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <button class="btn btn-block btn-flat btn-success"><i class="fa fa-save"></i> Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--MODAL ACTION PLAN-->
+                            <div id="modalActionPlan" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Action Plan</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <label class="label label-primary"><em class="fa fa-download"></em></label>
+                                                    <a href="#"><i class="fa fa-file-word-o"></i> FPAPK template</a>
+                                                    <br/><br/>
+                                                </div>
+                                                <form>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="label label-primary">Upload File</label>
+                                                        <input type="file" class="form-control" />
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <button class="btn btn-success btn-flat btn-block"><i class="fa fa-save"></i> Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h4 class="text-aqua text-center">Training Request</h4>
+                            <hr></hr>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="label label-primary">Training code</label>
+                                    <input type="text" class="form-control" />
+                                    <br/>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="label label-primary">Training topic</label>
+                                    <input type="text" class="form-control" />
+                                    <br/>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="label label-primary">State</label>
+                                    <select class="form-control" id="filterStatus">
+                                        <option>All</option>
+                                        <option>Draft</option>
+                                        <option>Progress</option>
+                                        <option>Completed</option>
+                                    </select>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="label label-primary">Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="filterDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-lg-push-3 col-md-push-3">
+                            <div class="input-group">
                                 <select class="form-control">
-                                  <option>None</option>
-                                  <option>A</option>
+                                    <option>Bulk</option>
                                 </select>
-                              </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary">Training Description</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                              </div>
-                              <br/>
-                            </div>
-                          </div>
-                          <div class="row addFileWrapper">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div class="form-group">
-                                <label class="label label-primary" >File Upload</label>
-                                <div class="input-group">
-                                  <input type="file" class="form-control" name="fileTraining[]">
-                                  <div class="input-group-btn">
-                                    <button type="button" class="btn btn-success btn-add"><i class="fa fa-plus"></i></button>
-                                  </div>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success btn-flat pull-right" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-plus"></i> Training</button>
                                 </div>
-                              </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <button type="submit" class="btn btn-flat btn-success pull-right"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--MODAL TRAINING-->
+                            <div id="modalAddTraining" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Add Training Request</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">Training Topic</label>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">Training Type</label>
+                                                            <select class="form-control" id="trainingType">
+                                                                <option>Administration</option>
+                                                                <option>Business/Management</option>
+                                                                <option>Computer</option>
+                                                                <option>Language</option>
+                                                                <option>Leadership</option>
+                                                                <option>Self Development</option>
+                                                                <option>Technical</option>
+                                                                <option value="other">Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="trainingTypeHide">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">Training Type</label>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">Start Date</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="startDate" onkeydown="return false">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">End Date</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="endDate" onkeydown="return false">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">PDP Item</label>
+                                                            <select class="form-control">
+                                                                <option>None</option>
+                                                                <option>A</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">Training Description</label>
+                                                            <textarea class="form-control" rows="3"></textarea>
+                                                        </div>
+                                                        <br/>
+                                                    </div>
+                                                </div>
+                                                <div class="row addFileWrapper" ng-repeat="file in fileUpload track by $index">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="label label-primary">File Upload</label>
+                                                            <div class="input-group">
+                                                                <input type="file" class="form-control" name="fileTraining[]">
+                                                                <div class="input-group-btn">
+                                                                    <button type="button" class="btn btn-success btn-add" ng-click="addFile()" ng-if="$index==0"><i class="fa fa-plus"></i></button>
+                                                                    <button type="button" class="btn btn-danger btn-remove" ng-click="removeFile()" ng-if="$index!=0"><i class="fa fa-minus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <button type="submit" class="btn btn-flat btn-success pull-right"> Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                      </div>
+                        </div>
+                        <!--TABLE-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" dt-instance="trainingTable" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs">
+                                    <thead>
+                                        <tr>
+                                            <th>Check</th>
+                                            <th>Toggle</th>
+                                            <th>Training Code</th>
+                                            <th>Topic</th>
+                                            <th>Venue</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Option</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="training in data">
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <td>
+                                                <button ng-if="training.expanded" ng-click="training.expanded = false" class="btn btn-flat btn-danger"><i class="fa fa-minus"></i></button>
+                                                <button ng-if="!training.expanded" ng-click="training.expanded = true" class="btn btn-flat btn-success"><i class="fa fa-plus"></i></button>
+                                            </td>
+                                            <td>{{training.training_code}}</td>
+                                            <td>{{training.training_topic}}</td>
+                                            <td>{{training.training_venue}}</td>
+                                            <td>{{training.date}}</td>
+                                            <td>{{training.status}}</td>
+                                            <td>
+                                                <a href="#" data-toggle="modal" data-target="#modalTrainingHistory"><i class="fa fa-history"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#modalAddTraining"><i class="fa fa-pencil"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#modalQuestion"><i class="fa fa-question"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#modalActionPlan"><i class="fa fa-upload"></i></a>
+                                                <a href="#"><i class="fa fa-check"></i></a>
+                                                <a href="#"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="training.expanded">
+                                            <td colspan="8">
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                        <ul class="timeline">
+                                                            <li class="time-label">
+                                                                <span class="bg-blue">01 Feb 2017</span>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-file bg-green" data-toggle="tooltip" title="Draft"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-user bg-gray" data-toggle="tooltip" title="Direct Superior"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-user bg-gray" data-toggle="tooltip" title="HR"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-user bg-gray" data-toggle="tooltip" title="Superior"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-registered bg-gray" data-toggle="tooltip" title="Registration"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-child bg-gray" data-toggle="tooltip" title="Training Complete"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-feed bg-gray" data-toggle="tooltip" title="Feedback"></i>
+                                                                <br/>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-check bg-gray" data-toggle="tooltip" title="Completion"></i>
+                                                                <br/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <table>
+                                                            <tr>
+                                                                <th>Training Type</th>
+                                                                <td>{{training.training_type}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Description</th>
+                                                                <td>{{training.training_description}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Vendor Name</th>
+                                                                <td>{{training.vendor_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Vendor Contact</th>
+                                                                <td> Phone : {{training.vendor_phone}}<br/> Fax : {{training.vendor_fax}}<br/> Email : {{training.vendor_email}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Based on PDP</th>
+                                                                <td>{{training.based_on_pdp}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Development Plan</th>
+                                                                <td>{{training.development_plan}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                        <table>
+                                                            <tr>
+                                                                <th>Note</th>
+                                                                <td> : {{training.note}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>File</th>
+                                                                <td> : <a href="">{{training.files }}</a></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table id="trainingTable" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th></th>
-                      <th>Training Code</th>
-                      <th>Topic</th>
-                      <th>Venue</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Option</th>
-                    </tr>
-                  </thead>
-
-                </table>
-              </div>
+                </section>
             </div>
-          </section>
         </div>
-      </div>
 
-      <!--FOOTER-->
-      <footer class="main-footer">
-        <div class="container">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-          </div>
-          <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
-        </div>
-      </footer>
+        <!--FOOTER-->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0.0
+                </div>
+                <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
+            </div>
+        </footer>
 
     </div>
-  </body>
+</body>
 
 </html>
