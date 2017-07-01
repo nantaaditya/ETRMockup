@@ -1,4 +1,4 @@
-<html ng-app="globalConfigApp" ng-controller="globalConfigCtrl">
+<html ng-app="departmentConfigApp" ng-controller="departmentConfigCtrl">
 
 <head>
     <title>ETR System</title>
@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="static/plugins/select2/select2.css" />
     <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css" />
     <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css" />
     <!--JS-->
     <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="static/plugins/select2/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/i18n/angular-locale_id-id.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/i18n/angular-locale_id.js"></script>
-    <script src="static/js/controller/admin/globalconfig-controller.js"></script>
+    <script src="static/js/controller/admin/departmentconfig-controller.js"></script>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>
     <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="static/plugins/fastclick/fastclick.js"></script>
@@ -25,17 +27,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/datatables.bootstrap.min.css" />
     <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css" />
+    <link rel="stylesheet" href="static/mylib/modal/customSize.css" />
+    <link rel="stylesheet" href="static/custom/custom.css" />
     <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/angular-datatables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
     <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="static/mylib/currency/idr.js"></script>
-    <link rel="stylesheet" href="static/mylib/modal/customSize.css" />
-    <link rel="stylesheet" href="static/mylib/dataTables/disableFeature.css" />
     <script>
         $(document).ready(function() {
+            function formatRepo(repo) {
+                if (repo.loading) return repo.text;
+                var markup = "<div class='select2-result-repository clearfix'>" +
+                    "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
+                    "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'>" + repo.full_name + "</div>";
+                if (repo.description) {
+                    markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
+                }
+
+                markup += "<div class='select2-result-repository__statistics'>" +
+                    "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.forks_count + " Forks</div>" +
+                    "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.stargazers_count + " Stars</div>" +
+                    "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.watchers_count + " Watchers</div>" +
+                    "</div>" +
+                    "</div></div>";
+                return markup;
+            }
+
+            function formatRepoSelection(repo) {
+                return repo.full_name || repo.text;
+            }
+            $("#selectUser").select2({
+                ajax: {
+                    url: "https://api.github.com/search/repositories",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+                minimumInputLength: 2,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
             $('#filterYear').datepicker({
                 format: " yyyy",
                 viewMode: "years",
@@ -69,8 +121,8 @@
                             <li><a href="admin-traininghistory.html">Training</a></li>
                             <li><a href="admin-approval.html">Approval</a></li>
                             <li><a href="admin-employeedata.html">Employee</a></li>
-                            <li class="active"><a href="admin-configuration.html">Global Configuration</a></li>
-                            <li><a href="admin-departement-configuration.html">Department Configuration</a></li>
+                            <li><a href="admin-configuration.html">Global Configuration</a></li>
+                            <li class="active"><a href="admin-departement-configuration.html">Department Configuration</a></li>
                         </ul>
                     </div>
 
@@ -195,10 +247,10 @@
                             <!--END MODAL PROFILE-->
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <h4 class="text-aqua text-center">Global Configuration</h4>
+                            <h4 class="text-aqua text-center">Department Configuration</h4>
                             <hr></hr>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                             <label class="label label-primary">Filter</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -208,27 +260,27 @@
                             </div>
                             <br/>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-lg-push-6 col-md-push-6">
                             <div class="btn-group pull-right">
-                                <button class="btn btn-success" data-toggle="modal" data-target="#modalAddCompany"><i class="fa fa-plus"></i> Company</button>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#modalAddDepartment"><i class="fa fa-plus"></i> Department</button>
                                 <button class="btn btn-success" data-toggle="modal" data-target="#modalAddConfig"><i class="fa fa-plus"></i> Config</button>
                             </div>
                             <!--MODAL COMPANY-->
-                            <div id="modalAddCompany" class="modal fade" role="dialog">
+                            <div id="modalAddDepartment" class="modal fade" role="dialog">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Add Company</h4>
+                                            <h4 class="modal-title">Add Department</h4>
                                         </div>
                                         <div class="modal-body">
                                             <form>
                                                 <div class="form-group">
-                                                    <label class="label label-primary">Company Code</label>
+                                                    <label class="label label-primary">Department Code</label>
                                                     <input class="form-control" type="text" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="label label-primary">Company Name</label>
+                                                    <label class="label label-primary">Department Name</label>
                                                     <input class="form-control" type="text" />
                                                 </div>
                                                 <div class="row">
@@ -242,13 +294,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--MODAL GLobal Config-->
+                            <!--MODAL DEPARTMENT CONFIG-->
                             <div id="modalAddConfig" class="modal fade" role="dialog">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Add Global Config</h4>
+                                            <h4 class="modal-title">Add Department Config</h4>
                                         </div>
                                         <div class="modal-body">
                                             <form name="addGlobalConfig">
@@ -262,8 +314,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="label label-primary">Budget</label>
-                                                    <input class="form-control" id="budget" type="text" />
+                                                    <label class="label label-primary">Department</label>
+                                                    <input class="form-control" type="text" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="label label-primary">User Approval</label>
+                                                    <select class="form-control" style="width: 100%;" id="selectUser" multiple="multiple" ng-model="user" ng-change="print()"> 
+                                                        
+                                                    </select>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -278,22 +336,24 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <table class="table table-bordered" dt-instance="globalConfigTable" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs">
+                            <table class="table table-bordered" dt-instance="departmentConfigTable" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs">
                                 <thead>
                                     <tr>
                                         <th>Year</th>
-                                        <th>Training Budget</th>
+                                        <th>Department</th>
+                                        <th>User Approval</th>
                                         <th>Quota Counter</th>
-                                        <th>Active</th>
                                         <!--<th>Option</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="config in data">
                                         <td>{{config.year}}</td>
-                                        <td>{{config.trainingBudget | currency}}</td>
+                                        <td>{{config.department}}</td>
+                                        <td>
+                                            <span ng-repeat="user in config.userApproval">{{user.name}}<br/></span>
+                                        </td>
                                         <td>{{config.quota}}</td>
-                                        <td>{{config.status}}</td>
                                         <!--<td>
                                           <a href="#" data-toggle="modal" data-target="#modalAddConfig"><i class="fa fa-pencil"></i></a>
                                         </td>-->
