@@ -1,10 +1,10 @@
 {
   "data": [
     {
-      "employee_name": "Putra Firman",
-      "employee_position": "Developer",
-      "employee_department": "IT",
-      "employee_direct_supperior": "Pramuditya",
+    "employee_name": "Putra Firman",
+    "employee_position": "Developer",
+    "employee_department": "IT",
+    "employee_direct_supperior": "Pramuditya",
     "training_code": "1/GDN-HQ/Jan/17",
 	  "training_topic": "Spring Framework",
 	  "training_type": "Technical",

@@ -1,260 +1,578 @@
-<html>
+<html ng-app="adminTrainingApp" ng-controller="adminTrainingCtrl">
 
-  <head>
-    <title>ETR System</title>
+<head>
+    <title>PTP  System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!--CSS-->
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css"/>
-    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css"/>
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="static/dist/css/skins/skin-blue.css" />
+    <link rel="stylesheet" href="static/dist/css/AdminLTE.min.css" />
     <!--JS-->
     <script src="static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/i18n/angular-locale_id-id.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/i18n/angular-locale_id.js"></script>
+    
+    <script src="static/js/controller/admin/traininghistory-controller.js"></script>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>
     <script src="static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="static/plugins/fastclick/fastclick.js"></script>
     <script src="static/dist/js/app.min.js"></script>
     <script src="static/dist/js/demo.js"></script>
     <!--PLUGIN-->
-    <link rel="stylesheet" href="static/plugins/datatables/dataTables.bootstrap.css"/>
-    <link rel="stylesheet" href="static/plugins/daterangepicker/daterangepicker.css"/>
-    <link rel="stylesheet" href="static/plugins/datepicker/datepicker3.css"/>
-    <link rel="stylesheet" href="static/custom/custom.css"/>
-    <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="static/plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <script src="static/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script src="static/plugins/daterangepicker/daterangepicker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/css/angular-datatables.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/datatables.bootstrap.min.css" />
+    <link rel="stylesheet" href="static/custom/custom.css" />
     <link rel="stylesheet" href="static/mylib/modal/customSize.css"/>
     <link rel="stylesheet" href="static/mylib/dataTables/disableFeature.css"/>
+    <!--<link rel="stylesheet" href="static/mylib/timelineMod/horisontal.css" />-->
+    <script src="static/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/angular-datatables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.7/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
     <script>
-
+        $(document).ready(function() {
+            //Approval
+            $('.targetDiv').addClass('hidden');
+            $('.showSingle').click(function() {
+                $(".showSingle").children().removeClass("bg-blue");
+                $('.targetDiv').addClass('hidden');
+                $(this).children().removeClass("bg-gray");
+                $(this).children().addClass("bg-blue");
+                $('#div' + $(this).attr('target')).removeClass("hidden");
+            });
+        });
     </script>
-    <!-- Load Data Tables-->
-    <script src="static/mylib/dataTables/hrdTrainingHistory.js"></script>
-  </head>
+</head>
 
-  <body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition skin-blue layout-top-nav">
     <div class="wrapper">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top">
-          <div class="container">
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                <div class="container">
 
-            <div class="navbar-header">
-              <a href="#" class="navbar-brand"><b>ETR</b> System</a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-bars"></i>
-              </button>
-            </div>
-
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="admin-traininghistory.html">Training</a></li>
-                <li><a href="admin-approval.html">Approval</a></li>
-                <li><a href="admin-employeedata.html">Employee</a></li>
-                <li><a href="admin-configuration.html">Configuration</a></li>
-              </ul>
-            </div>
-
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                <li class="dropdown user user-menu">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
-                    <span class="hidden-xs">HRD</span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="user-header">
-                      <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
-                      <p>
-                        HRD
-                        <small>Senior Human Resource Development</small>
-                      </p>
-                    </li>
-                    <!-- Menu Body -->
-                    <li class="user-body">
-                      <div class="row">
-                        <div class="col-xs-6 text-center">
-                          <p>10 PDP</p>
-                        </div>
-                        <div class="col-xs-6 text-center">
-                          <a href="#">5 Training</a>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- Menu Footer-->
-                    <li class="user-footer">
-                      <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                          <div class="btn-group text-center">
-                            <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
-                            <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
-                            <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
-                          </div>
-                        </div>
-                      </div>
-                      <br/>
-                      <div class="pull-left">
-                        <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
-                      </div>
-                      <div class="pull-right">
-                        <a href="#" class="btn btn-danger btn-flat">Sign out</a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <!-- /.navbar-custom-menu -->
-          </div>
-          <!-- /.container-fluid -->
-        </nav>
-      </header>
-
-      <!--CONTENT-->
-      <div class="content-wrapper">
-        <div class="container">
-          <section class="content">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <!--MODAL PROFILE-->
-                <div id="modalProfile" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Profile</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Company Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Department Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Code</label>
-                            <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Employee Name</label>
-                            <input type="text" class="form-control" disabled="disabled" value="HRD"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Email</label>
-                            <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Position</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Senior HRD"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Direct Superior</label>
-                            <input type="text" class="form-control" disabled="disabled" value="User2"></input>
-                            <br/>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label class="label label-primary">Status</label>
-                            <input type="text" class="form-control" disabled="disabled" value="Active"></input>
-                            <br/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                      </div>
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand"><b>ETR</b> System</a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                          <i class="fa fa-bars"></i>
+                        </button>
                     </div>
-                  </div>
-                </div>
-                <!--END MODAL PROFILE-->
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4 class="text-aqua text-center"></h4>
-                <hr></hr>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
-                  <label class="label label-primary">Departmen</label>
-                  <select class="form-control" id="filterDepartment">
-                    <option>All</option>
-                    <option>IT</option>
-                    <option>HRD</option>
-                    <option>Customer Service</option>
-                  </select>
-                  <br/>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
-                  <label class="label label-primary">Position</label>
-                  <select class="form-control" id="filterPosition">
-                    <option>All</option>
-                    <option>-</option>
-                    <option>-</option>
-                    <option>-</option>
-                  </select>
-                  <br/>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
-                  <label class="label label-primary">Direct Superior</label>
-                  <select class="form-control" id="filterDirectSup">
-                    <option>All</option>
-                    <option>-</option>
-                    <option>-</option>
-                    <option>-</option>
-                  </select>
-                  <br/>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
-                  <label class="label label-primary">Employee</label>
-                  <input type="text" class="form-control"/>
-                  <br/>
-                </div>
-              </div>
 
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <!-- Button Placeholder. Right? -->
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table id="historyEmployeeTable" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Department</th>
-                      <th>Direct Superior</th>
-                      <!-- <th>Option</th> -->
-                    </tr>
-                  </thead>
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="admin-traininghistory.html">Training</a></li>
+                            <li ><a href="admin-approval.html">Approval</a></li>
+                            <li><a href="admin-employeedata.html">Employee</a></li>
+                            <li><a href="admin-configuration.html">Global Configuration</a></li>
+                            <li><a href="admin-departement-configuration.html">Department Configuration</a></li>
+                        </ul>
+                    </div>
 
-                </table>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="static/dist/img/avatar5.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">HRD</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        <img src="static/dist/img/avatar5.png" class="img-circle" alt="User Image">
+                                        <p>
+                                            User
+                                            <small>Junior Web Developer</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-center">
+                                                <p>10 PDP</p>
+                                            </div>
+                                            <div class="col-xs-6 text-center">
+                                                <a href="#">5 Training</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <div class="btn-group text-center">
+                                                    <a href="employee-pdp.html" class="btn btn-default btn-flat">Employee</a>
+                                                    <a href="reviewer-approval.html" class="btn btn-default btn-flat">Reviewer</a>
+                                                    <a href="admin-traininghistory.html" class="btn btn-default btn-flat">Admin</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalProfile">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-danger btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-custom-menu -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </header>
 
-              </div>
+        <!--CONTENT-->
+        <div class="content-wrapper">
+            <div class="container">
+                <section class="content">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!--MODAL PROFILE-->
+                            <div id="modalProfile" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Profile</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Company Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Blibli.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Department Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Code</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="ABC123"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Employee Name</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Email</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="user@mail.com"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Position</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Junior developer"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Direct Superior</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="User2"></input>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <label class="label label-primary">Status</label>
+                                                    <input type="text" class="form-control" disabled="disabled" value="Active"></input>
+                                                    <br/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END MODAL PROFILE-->
+                            <!--MODAL Next Step-->
+                            <div id="modalNextStep" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Gate to Registration</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-sm-2">
+                                                <ul class="timeline">
+                                                    <li>
+                                                        <i class="fa fa-file bg-green" title="Draft"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="1" style="cursor:pointer">
+                                                        <i class="fa fa-user bg-gray" title="Direct Superior Approval"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="2" style="cursor:pointer">
+                                                        <i class="fa fa-user bg-gray" title="HR Approval"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="3" style="cursor:pointer">
+                                                        <i class="fa fa-user bg-gray" title="Supperior Approval"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="4" style="cursor:pointer">
+                                                        <i class="fa fa-registered bg-gray" title="Registration"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-child bg-gray" title="Training Completion"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="5" style="cursor:pointer">
+                                                        <i class="fa fa-feed bg-gray" title="Feedback"></i>
+                                                        <br>
+                                                    </li>
+                                                    <li class="showSingle" target="6" style="cursor:pointer">
+                                                        <i class="fa fa-check bg-gray" title="Completion"></i>
+                                                        <br>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                <div class="targetDiv" id="div1">
+                                                    <h4 class="text-center text-aqua">Direct Superior Approval</h4>
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Initiator</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                                <th>Note</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Supperior 1</td>
+                                                                <td>1 Jan 2017</td>
+                                                                <td>Approve</td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <form>
+                                                        <div class="btn-group pull-right">
+                                                            <button type="submit" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Reject</button>
+                                                            <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Approve</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="targetDiv" id="div2">
+                                                    <h4 class="text-center text-aqua">HR Approval</h4>
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Initiator</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                                <th>Note</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Supperior 1</td>
+                                                                <td>1 Jan 2017</td>
+                                                                <td>Approve</td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <form>
+                                                        <div class="btn-group pull-right">
+                                                            <button type="submit" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Reject</button>
+                                                            <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Approve</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="targetDiv" id="div3">
+                                                    <h4 class="text-center text-aqua">Superior Approval</h4>
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Initiator</th>
+                                                                <th>Date</th>
+                                                                <th>Status</th>
+                                                                <th>Note</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Supperior 1</td>
+                                                                <td>1 Jan 2017</td>
+                                                                <td>Approve</td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Supperior 2</td>
+                                                                <td>2 Jan 2017</td>
+                                                                <td>Approve</td>
+                                                                <td>Good</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Supperior 3</td>
+                                                                <td>3 Jan 2017</td>
+                                                                <td>Approve</td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <form>
+                                                        <div class="btn-group pull-right">
+                                                            <button type="submit" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Reject</button>
+                                                            <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Approve</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="targetDiv" id="div4">
+                                                    <h4 class="text-center text-aqua">Registration</h4>
+                                                    <form>
+                                                        <label class="label label-primary">Vendor</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Vendor Contact Name</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Vendor Phone</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Vendor Fax</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Vendor Email</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Training Cost</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Hotel Cost</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <label class="label label-primary">Ticket Cost</label>
+                                                        <input type="text" class="form-control" />
+                                                        <br/>
+                                                        <div class="btn-group pull-right">
+                                                            <button type="submit" class="btn btn-flat btn-danger"><i class="fa fa-close"></i> Reject</button>
+                                                            <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Approve</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="targetDiv" id="div5">
+                                                    <h4 class="text-center text-aqua">Feedback</h4>
+                                                    <label class="label label-primary"><i class="fa fa-download"></i> Attachement File</label>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item"><a href=""><i class="fa fa-file-pdf-o"></i> File 1</a></li>
+                                                        <li class="list-group-item"><a href=""><i class="fa fa-file-pdf-o"></i> File 1</a></li>
+                                                    </ul>
+                                                    <form>
+                                                        <div class="btn-group pull-right">
+                                                            <button type="submit" class="btn btn-flat btn-success"><i class="fa fa-check"></i> Close Workflow</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END Reject -->
+
+                        </div>
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h4 class="text-aqua text-center"></h4>
+                            <hr></hr>
+                          </div>
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                              <label class="label label-primary">Departmen</label>
+                              <select class="form-control" id="filterDepartment">
+                                <option>All</option>
+                                <option>IT</option>
+                                <option>HRD</option>
+                                <option>Customer Service</option>
+                              </select>
+                              <br/>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                              <label class="label label-primary">Position</label>
+                              <select class="form-control" id="filterPosition">
+                                <option>All</option>
+                                <option>-</option>
+                                <option>-</option>
+                                <option>-</option>
+                              </select>
+                              <br/>
+                            </div>
+                          </div>
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                              <label class="label label-primary">Direct Superior</label>
+                              <select class="form-control" id="filterDirectSup">
+                                <option>All</option>
+                                <option>-</option>
+                                <option>-</option>
+                                <option>-</option>
+                              </select>
+                              <br/>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+                              <label class="label label-primary">Employee</label>
+                              <input type="text" class="form-control"/>
+                              <br/>
+                            </div>
+                          </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <table class="table table-bordered" dt-instance="adminApprovalTable" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Department</th>
+                                        <th>Direct Superior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="training in data">
+                                        <td>
+                                            <button ng-if="training.expanded" ng-click="training.expanded = false" class="btn btn-flat btn-danger"><i class="fa fa-minus"></i></button>
+                                            <button ng-if="!training.expanded" ng-click="training.expanded = true" class="btn btn-flat btn-success"><i class="fa fa-plus"></i></button>
+                                        </td>
+                                        <td>{{training.name}}</td>
+                                        <td>{{training.position}}</td>
+                                        <td>{{training.department}}</td>
+                                        <td>{{training.directSuperior}}</td>
+                                        <!--  -->
+
+                                    </tr>
+                                    <tr ng-repeat-end="" ng-if="training.expanded">
+                                        <td colspan="8">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <table class="table">
+                                                      <tr>
+                                                        <th>Training Code</th>
+                                                        <th>Topic</th>
+                                                        <th>Date</th>
+                                                        <th>Status</th>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>{{training.training_code}}</td>
+                                                        <td>{{training.training_topic}}</td>
+                                                        <td>{{training.date}}</td>
+                                                        <td>{{training.status}}</td>
+                                                      </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                    <ul class="timeline">
+                                                        <li class="time-label">
+                                                            <span class="bg-blue">01 Feb 2017</span>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-file bg-green" data-toggle="tooltip" title="Draft"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-user bg-gray" data-toggle="tooltip" title="Direct Superior"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-user bg-gray" data-toggle="tooltip" title="HR"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-user bg-gray" data-toggle="tooltip" title="Superior"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-registered bg-gray" data-toggle="tooltip" title="Registration"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-child bg-gray" data-toggle="tooltip" title="Training Complete"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-feed bg-gray" data-toggle="tooltip" title="Feedback"></i>
+                                                            <br/>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-check bg-gray" data-toggle="tooltip" title="Completion"></i>
+                                                            <br/>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <table>
+                                                        <tr>
+                                                            <th>Training Type</th>
+                                                            <td>{{training.training_type}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Description</th>
+                                                            <td>{{training.training_description}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Vendor Name</th>
+                                                            <td>{{training.vendor_name}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Vendor Contact</th>
+                                                            <td> Phone : {{training.vendor_phone}}<br/> Fax : {{training.vendor_fax}}<br/> Email : {{training.vendor_email}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Based on PDP</th>
+                                                            <td>{{training.based_on_pdp}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Development Plan</th>
+                                                            <td>{{training.development_plan}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <table>
+                                                        <tr>
+                                                            <th>Note</th>
+                                                            <td> : {{training.note}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>File</th>
+                                                            <td> : <a href="">{{training.files }}</a></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
             </div>
-          </section>
         </div>
-      </div>
 
-      <!--FOOTER-->
-      <footer class="main-footer">
-        <div class="container">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-          </div>
-          <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
-        </div>
-      </footer>
+        <!--FOOTER-->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0.0
+                </div>
+                <strong>Copyright &copy; 2017. Malang Dev Team.</strong> All rights reserved.
+            </div>
+        </footer>
 
     </div>
-  </body>
+</body>
 
 </html>
